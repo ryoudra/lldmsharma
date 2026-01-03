@@ -2,13 +2,13 @@ package IntroToMultithreading.hws;
 
 public class Work implements Runnable {
 
-    private  static int counter=1;
+   private int n;
+   public   Work(int n) {
+       this.n = n;
+   }
 
-    /**
-     * Runs this operation.
-     */
-    @Override
+   @Override
     public void run() {
-        System.out.println(counter++);
-    }
+       System.out.println(n);
+   }
 }
