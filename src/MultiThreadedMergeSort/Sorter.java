@@ -10,17 +10,25 @@ import java.util.concurrent.Future;
 public class Sorter implements Callable<List<Integer>> {
 
   private List<Integer> arrayToBeSorted;
-  public Sorter(List<Integer> arrayToBeSorted) {
+  private ExecutorService executors;
+  public Sorter(List<Integer> arrayToBeSorted, ExecutorService executors) {
       this.arrayToBeSorted = arrayToBeSorted;
+      this.executors = executors;
   }
+
+
 
     @Override
     public List<Integer> call() throws Exception {
-      //logic
+        System.out.println("sorting is happening in "+ Thread.currentThread().getName());
+        System.out.println("Array is: " + arrayToBeSorted);
+
+        //LOGIC
 
         if(arrayToBeSorted.size()<=1){
             return arrayToBeSorted;
         }
+
         int size=arrayToBeSorted.size();
         int mid= size/2;
 
@@ -28,13 +36,15 @@ public class Sorter implements Callable<List<Integer>> {
         List<Integer> rightArrayToBeSorted = arrayToBeSorted.subList(mid, size);
 
         // sort the 2 parts
-        Sorter leftArraySorterTask = new Sorter(leftArrayToBeSorted);
-        Sorter rightAarraySorterTask = new Sorter(rightArrayToBeSorted);
+        Sorter leftArraySorterTask = new Sorter(leftArrayToBeSorted,executors);
+        Sorter rightAarraySorterTask = new Sorter(rightArrayToBeSorted,executors);
 
         // take help of 2 thread for 2 parts to sort them
-        ExecutorService executorService= Executors.newFixedThreadPool(2);
-        Future<List<Integer>> leftFuture= executorService.submit(leftArraySorterTask);
-        Future<List<Integer>> rightFuture= executorService.submit(rightAarraySorterTask);
+       // ExecutorService executorService= Executors.newFixedThreadPool(2);
+
+        //now we using the same thread pool from client
+        Future<List<Integer>> leftFuture= executors.submit(leftArraySorterTask);
+        Future<List<Integer>> rightFuture= executors.submit(rightAarraySorterTask);
 
         //now we have to wait and get the result after all things done so for that .get()
         List<Integer> left= leftFuture.get();
