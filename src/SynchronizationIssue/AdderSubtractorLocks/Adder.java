@@ -24,7 +24,12 @@ public class Adder implements Callable<Void> {
     public Void call() throws Exception {
 
         for (int i = 0; i < 10000; i++) {
-            this.value.setX(this.value.getX() + 1);
+            //let the loop run , only on critical part we will lock the shared data only 1 thread at a time
+            //though context switch , keys remain with one , no other can access it
+
+            lock.lock();
+            value.setX(value.getX() + i);
+            lock.unlock();
         }
 return  null;
     }

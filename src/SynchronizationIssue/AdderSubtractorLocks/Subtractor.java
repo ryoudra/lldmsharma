@@ -20,8 +20,11 @@ public class Subtractor implements Callable<Void> {
      */
     @Override
     public Void call() throws Exception {
-        for(int i=0;i<10000;i++)
-             this.value.setX(this.value.getX()-i);
+        for(int i=0;i<10000;i++) {
+            lock.lock();
+            value.setX(value.getX() - i);
+            lock.unlock();
+        }
 
         return null;
     }

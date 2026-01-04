@@ -12,6 +12,7 @@ public class Client {
 
         Value value = new Value();
         Lock lock = new ReentrantLock();
+        // same object of the lock should be passed to both the codes
 
         Adder adder= new Adder(value, lock);
         Subtractor subtractor = new Subtractor(value, lock);
