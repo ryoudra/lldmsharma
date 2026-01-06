@@ -2,9 +2,10 @@ package ProducerConsumer.Semaphore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Store {
-    private List<Object> list = new ArrayList<>();
+    private ConcurrentLinkedDeque<Object> list = new ConcurrentLinkedDeque<>();
     private int MAX_SIZE = 100;
 
     public void add(Object o) {
@@ -13,7 +14,7 @@ public class Store {
     }
 
     public void remove() {
-        list.remove(list.size()-1);
+        list.remove();
         System.out.println("item is being consumed now total elements in store is "+ list.size());
     }
 
@@ -21,7 +22,7 @@ public class Store {
         return MAX_SIZE;
     }
 
-    public List<Object> getItems() {
+    public ConcurrentLinkedDeque<Object> getItems() {
         return list;
     }
 }
