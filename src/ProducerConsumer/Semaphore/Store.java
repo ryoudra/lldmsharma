@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Store {
+    //thread safe data structure
     private ConcurrentLinkedDeque<Object> list = new ConcurrentLinkedDeque<>();
     private int MAX_SIZE = 100;
 
